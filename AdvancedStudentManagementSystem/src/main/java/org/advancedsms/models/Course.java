@@ -3,8 +3,6 @@ package org.advancedsms.models;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Course {
-
-    private static final AtomicInteger counter = new AtomicInteger(100);
     private String courseName;
     private int courseId;
 
@@ -12,7 +10,6 @@ public class Course {
 
     public Course(String courseName){
         this.courseName = courseName;
-        this.courseId   = counter.getAndIncrement();
     }
 
     public String getCourseName() {
@@ -27,7 +24,9 @@ public class Course {
         return courseId;
     }
 
-    //No setCourseId, IDs are auto generated
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
 
     @Override
     public String toString() {

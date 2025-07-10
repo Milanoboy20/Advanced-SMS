@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Student extends Person {
 
-    private static final AtomicInteger counter = new AtomicInteger(1);
+//    private static final AtomicInteger counter = new AtomicInteger(1);
     private int studentId, grade;
 
     private List<Course> courses = new ArrayList<>();
@@ -17,8 +17,7 @@ public class Student extends Person {
     public Student(String name, String email, int age, int grade) {
         super(name, email, age);
         this.grade      = grade;
-        this.studentId  = counter.getAndIncrement();
-
+        //will be setting studentId from db created primary keys
     }
 
     public void addCourse(Course course) {
@@ -41,7 +40,9 @@ public class Student extends Person {
         return studentId;
     }
 
-    //No setStudentId, IDs are auto generated
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
 
     public int getGrade() {
         return grade;

@@ -1,3 +1,0 @@
-ID,Name,Email,Age,Grade
-1,Abdul Samad,sadat@yahoo.com,30,4
-2,Mike Hunt,mike@yahoo.com,25,3

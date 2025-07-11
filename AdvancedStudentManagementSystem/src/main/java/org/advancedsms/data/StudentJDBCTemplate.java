@@ -19,12 +19,9 @@ public class StudentJDBCTemplate {
         //create student table sql
         String createStudentTable = "CREATE TABLE student (id int primary key auto_increment, name varchar(50), email varchar(255), age int, grade int);";
 
-        //create course table sql
-        String createCourseTable = "create table course (id int primary key auto_increment, name varchar(50));";
-
         try {
+            stmt = connection.createStatement();
             stmt.executeUpdate(createStudentTable);
-            stmt.executeUpdate(createCourseTable);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -51,9 +48,6 @@ public class StudentJDBCTemplate {
                 students.add(student);
             }
 
-            //close db connection after operations
-            dbConnector.closeConnection();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -68,17 +62,18 @@ public class StudentJDBCTemplate {
 
         try {
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1,studentId);
 
-            while (rs.next()) {
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
                 student.setStudentId(rs.getInt("id"));
                 student.setName(rs.getString("name"));
                 student.setEmail(rs.getString("email"));
                 student.setAge(rs.getInt("age"));
                 student.setGrade(rs.getInt("grade"));
             }
-
-            dbConnector.closeConnection();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -110,9 +105,6 @@ public class StudentJDBCTemplate {
 
             student.setStudentId(studentId);
 
-            //close bd connection
-            dbConnector.closeConnection();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -142,7 +134,6 @@ public class StudentJDBCTemplate {
 
             rowsAffected = ps.executeUpdate();
 
-            dbConnector.closeConnection();
 
         }catch (SQLException e) {
             e.printStackTrace();
@@ -164,8 +155,7 @@ public class StudentJDBCTemplate {
             //execute delete
             rowsAffected = ps.executeUpdate();
 
-            //close connection
-            dbConnector.closeConnection();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -174,4 +164,7 @@ public class StudentJDBCTemplate {
     }
 
 
+    public void closeDbConnection() {
+        dbConnector.closeConnection();
+    }
 }

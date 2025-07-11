@@ -6,7 +6,7 @@ import org.advancedsms.models.Student;
 import java.sql.*;
 
 
-public class JDBCTemplate {
+public class JDBCTemplateTest {
     public static void main(String[] args) {
 
         try {

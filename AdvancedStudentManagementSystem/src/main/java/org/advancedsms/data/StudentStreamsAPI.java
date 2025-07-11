@@ -20,7 +20,7 @@ public class StudentStreamsAPI {
     }
 
     //sort students alphabetically
-    public List<Student> sort(List<Student> students) {
-        return students.stream().sorted(Comparator.comparing(Student::getName)).collect(Collectors.toList());
+    public void sort(List<Student> students) {
+        students.stream().sorted(Comparator.comparing(Student::getName)).collect(Collectors.toList()).forEach(System.out::println);
     }
 }

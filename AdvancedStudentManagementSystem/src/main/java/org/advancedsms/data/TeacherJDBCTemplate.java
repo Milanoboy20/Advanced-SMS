@@ -21,6 +21,7 @@ public class TeacherJDBCTemplate {
         String createStudentTable = "CREATE TABLE teacher (id int primary key auto_increment, name varchar(50), email varchar(255), age int, subject varchar(50));";
 
         try {
+            stmt = connection.createStatement();
             stmt.executeUpdate(createStudentTable);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -48,9 +49,6 @@ public class TeacherJDBCTemplate {
                 teachers.add(teacher);
             }
 
-            //close db connection after operations
-            dbConnector.closeConnection();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -65,7 +63,10 @@ public class TeacherJDBCTemplate {
 
         try {
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1,teacherId);
+
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 teacher.setTeacherId(rs.getInt("id"));
@@ -74,8 +75,6 @@ public class TeacherJDBCTemplate {
                 teacher.setAge(rs.getInt("age"));
                 teacher.setSubject(rs.getString("subject"));
             }
-
-            dbConnector.closeConnection();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,9 +106,6 @@ public class TeacherJDBCTemplate {
 
             teacher.setTeacherId(teacherId);
 
-            //close bd connection
-            dbConnector.closeConnection();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -139,7 +135,6 @@ public class TeacherJDBCTemplate {
 
             rowsAffected = ps.executeUpdate();
 
-            dbConnector.closeConnection();
 
         }catch (SQLException e) {
             e.printStackTrace();
@@ -161,8 +156,6 @@ public class TeacherJDBCTemplate {
             //execute delete
             rowsAffected = ps.executeUpdate();
 
-            //close connection
-            dbConnector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -170,4 +163,7 @@ public class TeacherJDBCTemplate {
         return rowsAffected > 0;
     }
 
+    public void closeDBConnection() {
+        dbConnector.closeConnection();
+    }
 }

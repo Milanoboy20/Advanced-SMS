@@ -17,51 +17,6 @@ public class FileIOTemplate<T> {
 
     private static final File teacherFile = new File("teachers.txt");
 
-    public static void main(String[] args) {
-//        try {
-//            if (studentFile.createNewFile()) {
-//                System.out.println("Created ne file: " + studentFile.getName());
-//            } else {
-//                System.out.println("file already exist!");
-//            }
-//        } catch (IOException e) {
-//            throw  new RuntimeException(e.getMessage());
-//        }
-
-        try {
-            List<Student> students = new ArrayList<>();
-            Student student = new Student("Abdul Samad", "sadat@yahoo.com", 30, 4);
-            student.setStudentId(1);
-            Student student2 = new Student("Mike Hunt", "mike@yahoo.com", 25, 3);
-            student2.setStudentId(2);
-
-            students.add(student);
-            students.add(student2);
-
-            FileIOTemplate<Student> template = new FileIOTemplate<>();
-            template.export("students", students);
-
-
-            //import students file
-            List<Student> importedStudents = template.importStudentsFile("studentsImportTest.txt");
-            importedStudents.forEach(System.out::println);
-            System.out.println("===========");
-
-            StudentStreamsAPI streamsAPI = new StudentStreamsAPI();
-            //display students in grade 3
-            streamsAPI.displayStudents(4, importedStudents);
-
-            System.out.println("===========Sorted Students List==========");
-            streamsAPI.sort(importedStudents).forEach(System.out::println);
-
-            System.out.println("=========Count number of students in grade level 3============");
-            streamsAPI.count(3, importedStudents);
-
-        } catch (DataException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void export(String type, List<T> data) throws DataException {
         try (PrintWriter writer = new PrintWriter(type + ".txt")){

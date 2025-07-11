@@ -124,7 +124,7 @@ public class TeacherJDBCTemplate {
                 "name = ?, " +
                 "email = ?, " +
                 "age = ?, " +
-                "grade = ? " +
+                "subject = ? " +
                 "where id = ?;";
         int rowsAffected = 0;
 
